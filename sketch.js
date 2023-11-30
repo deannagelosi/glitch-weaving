@@ -28,7 +28,8 @@ function setup() {
   
   drawdown = new Drawdown(wefts, warps);
   drawdown.loadPattern("twoByTwoTwill");
-  // console.log(drawdown.patternName);
+  drawdown.createThreading();
+  console.log(drawdown.threadingData);
 }
 
 function draw() {

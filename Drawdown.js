@@ -7,7 +7,7 @@ class Drawdown {
       this.patternName;
       this.numShafts; 
       this.shafts = [];
-      this.threadingBase = [];
+      this.threading = [];
       this.glitchSectionSize;
       
       this.rowDataTemplate = {
@@ -15,12 +15,13 @@ class Drawdown {
         originalPositions: null,
         glitched: null // true or false
       };
+      this.threadingData = []; // array of rowDataTemplate objects
       
       this.init();
     }
     
     init() {
-      // intitial blank drawdown
+      // initial blank drawdown
       for (let i = 0; i < this.wefts; i++) {
         this.drawdown[i] = [];
         for (let j = 0; j < this.warps; j++) {
@@ -58,46 +59,56 @@ class Drawdown {
             this.patternName = structure.name;
             this.numShafts = structure.numShafts; 
             this.shafts = structure.shafts;
-            this.threadingBase = structure.threadingBase;
+            this.threading = this.fillArray(structure.threadingBase); // expands the threading base across the warps;
             this.glitchSectionSize = structure.glitchSectionSize;
           }   
       }
     }
     
-  //   RowData[] createThreading(int[] threadingBase, int targetSize, int numShafts) {
-  //   int[] fullThread = fillArray(threadingBase, targetSize); // [1,2,3,4,1,2,3,4, etc...]
-  
-  //   // index the position data for all the warp shaft connections
-  //   int[][] positions = new int[numShafts][0];
-  
-  //   for (int i = 0; i < fullThread.length; i++) {
-  //     int currKey = fullThread[i];
-  
-  //     if (positions[currKey - 1].length == 0) {
-  //       // not seen this key yet, add it
-  //       positions[currKey - 1] = new int[]{i + 1};
-  //     } else {
-  //       // update existing key
-  //       positions[currKey-1] = append(positions[currKey-1], i + 1);
-  //     }
-  //   }
-  
-  //   RowData[] threading = new RowData[numShafts];
-  
-  //   for (int i = 0; i < threading.length; i++) {  
-  //     RowData threadRow = new RowData(positions[i]);
-  //     threading[i] = threadRow;
-  //   }
-  
-  //   return threading;
-  // }
-    
-    // threadingBase = this.threadingBase
-    // targetSize = this.warps
-    // numShafts = this.numShafts
     createThreading() {
-      let threading = this.fillArray(); // expands the threading base across the warps
       // populate positions based on number of shafts
-      sst 
+      let positions = [];
+      for (let i = 0; i < this.numShafts; i++) {
+        positions[i] = [];
+      }
+      console.log(positions);
+      // populate positions with threading data
+      for (let i = 0; i < this.warps; i++) {
+        let currKey = this.threading[i];
+        if (positions[currKey - 1].length == 0) {
+          // not seen this key yet, add it
+          positions[currKey - 1] = [i + 1];
+        } else {
+          // update existing key
+          positions[currKey-1].push(i + 1);
+        }
+      }
+
+      // position data saved into threadingData array
+      this.threadingData = [];
+      for (let i = 0; i < this.numShafts; i++) {
+        this.threadingData[i] = { ...this.rowDataTemplate };
+        this.threadingData[i].positions = positions[i];
+        this.threadingData[i].originalPositions = positions[i];
+        this.threadingData[i].glitched = false;
+      }
     }
+
+    fillArray(array) {
+        let filledArray = [];
+        let loopQuant = Math.ceil(this.warps / array.length);
+      
+        for (let i = 0; i < loopQuant; i++) {
+          for (let j = 0; j < array.length; j++) {
+            if (filledArray.length === this.warps) {
+              break;
+            } else {
+              filledArray.push(array[j]);
+            }
+          }
+        }
+      
+        return filledArray;
+      }
+      
   }
