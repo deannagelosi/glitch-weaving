@@ -1,10 +1,7 @@
-/* 
-  Basic Grid Setup
-*/
 
 // canvas
-let width = 500;
-let height = 500;
+let width = 590;
+let height = 590;
 let drawdown_width = 500;
 let drawdown_height = 500;
 let cellSize = 10;

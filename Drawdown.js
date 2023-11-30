@@ -254,18 +254,23 @@ class Drawdown {
 
     printSection(section, leftBuffer, topBuffer) {
         let sectionData;
+        let numCols;
         switch (section) {
             case "tieup":
                 sectionData = this.tieupData;
+                numCols = this.numShafts;
                 break;
             case "threading":
                 sectionData = this.threadingData;
+                numCols = this.warps;
                 break;
             case "liftplan":
                 sectionData = this.liftPlanData;
+                numCols = this.numShafts;
                 break;
             case "drawdown":
                 sectionData = this.drawdownData;
+                numCols = this.warps;
                 break;
             default:
                 console.log("Error finding section data");
@@ -273,7 +278,7 @@ class Drawdown {
 
         // Display section grids
         for (let row = 0; row < sectionData.length; row++) {
-            for (let col = 0; col < this.warps; col++) {
+            for (let col = 0; col < numCols; col++) {
                 let warpLifted = sectionData[row].positions.includes(col + 1);
                 let weftGlitched = sectionData[row].glitched;
 
