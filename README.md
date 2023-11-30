@@ -3,15 +3,16 @@
 Glitch Weaving is a weave draft generator that alters the lift plan of a starting pattern. These glitches are not errors or mistakes, but welcomed modifications that broaden the space for weave drafting. The "glitched" draft is deterministic due to its use of a noise field for selecting its lift plan changes.
 
 <div style="text-align: center;">
-    <figure style="display: inline-block; margin-right: 20px;">
-        <img src="doc/glitch-draft.gif" width="250" /> 
-        <figcaption>Figure 1: The Glitch Weaving editor, panning for error.</figcaption>
+    <figure style="display: inline-block; margin-right: 20px; text-align: center; width: 250px;">
+        <img src="doc/glitch-draft.gif" width="250" style="display: block; margin: auto;" />
+        <figcaption style="display: block;">Figure 1: The Glitch Weaving editor, panning for error.</figcaption>
     </figure>
-    <figure style="display: inline-block;">
-        <img src="doc/jacket.jpeg" width="250" />
-        <figcaption>Figure 2: The final woven sample upcyling a jacket.</figcaption>
+    <figure style="display: inline-block; text-align: center; width: 250px;">
+        <img src="doc/jacket.jpeg" width="250" style="display: block; margin: auto;" />
+        <figcaption style="display: block;">Figure 2: The final woven sample upcycling a jacket.</figcaption>
     </figure>
 </div>
+
 
 
 [Link to the project on p5.JS!](https://editor.p5js.org/dege9758/sketches/QqFwlNiMD)
