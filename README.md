@@ -5,11 +5,9 @@ Glitch Weaving is a weave draft generator that alters the lift plan of a startin
 <div style="text-align: center;">
     <figure style="display: inline-block; margin-right: 20px; text-align: center; width: 250px;">
         <img src="doc/glitch-draft.gif" width="250" style="display: block; margin: auto;" />
-        <figcaption style="display: block;">Figure 1: The Glitch Weaving editor, panning for error.</figcaption>
     </figure>
     <figure style="display: inline-block; text-align: center; width: 250px;">
         <img src="doc/jacket.jpeg" width="250" style="display: block; margin: auto;" />
-        <figcaption style="display: block;">Figure 2: The final woven sample upcycling a jacket.</figcaption>
     </figure>
 </div>
 
