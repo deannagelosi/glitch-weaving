@@ -191,7 +191,7 @@ class Drawdown {
     perlinChoose(numItems, px, py) {
         px = px + pan; // Add offset when panning
 
-        // noise() in p5.js also returns a value between 0 and 1
+        // noise() returns a value between 0 and 1
         let trim = 0.3;
         let pNoise = noise(px / pZoom, py / pZoom); // 0..1
 
