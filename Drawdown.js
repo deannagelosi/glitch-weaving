@@ -55,8 +55,8 @@ class Drawdown {
         this.threadingData = [];
         for (let i = 0; i < this.numShafts; i++) {
             this.threadingData[i] = { ...this.rowDataTemplate };
-            this.threadingData[i].positions = positions[i];
-            this.threadingData[i].originalPositions = positions[i];
+            this.threadingData[i].positions = [...positions[i]];
+            this.threadingData[i].originalPositions = [...positions[i]];
             this.threadingData[i].glitched = false;
         }
     }
@@ -65,8 +65,8 @@ class Drawdown {
         for (let i = 0; i < this.numShafts; i++) {
             let shaft = [i + 1];
             this.tieupData[i] = { ...this.rowDataTemplate };
-            this.tieupData[i].positions = shaft;
-            this.tieupData[i].originalPositions = shaft;
+            this.tieupData[i].positions = [...shaft];
+            this.tieupData[i].originalPositions = [...shaft];
             this.tieupData[i].glitched = false;
         }
     }
@@ -74,12 +74,12 @@ class Drawdown {
     createLiftPlan() {
         for (let i = 0; i < this.wefts; i = i + this.shafts.length) {
             for (let j = 0; j < this.shafts.length; j++) {
-                if (this.liftPlanData.length <= this.wefts) {
+                if (this.liftPlanData.length < this.wefts) {
                     // append the next row
                     let importedRow = this.shafts[j];
                     let newRow = { ...this.rowDataTemplate };
-                    newRow.positions = importedRow;
-                    newRow.originalPositions = importedRow;
+                    newRow.positions = [...importedRow];
+                    newRow.originalPositions = [...importedRow];
                     newRow.glitched = false;
                     this.liftPlanData.push(newRow);
                 } else {
@@ -103,7 +103,7 @@ class Drawdown {
             // Take a slice of the lift plan
             let slice = this.liftPlanData.slice(i, i + sliceSize);
 
-            // Perform the glitch operation (assuming gradientGlitch is defined)
+            // Perform the glitch operation
             let glitchSection = this.gradientGlitch(slice, currSection, currRow);
             for (let j = 0; j < glitchSection.length; j++) {
                 if (currRow < this.liftPlanData.length) {
@@ -117,8 +117,8 @@ class Drawdown {
 
     gradientGlitch(liftPlanSegment, currSection, currRow) {
         // set number of changes based on current section and glitchMod
-        let numChanges = currSection === 0 ? 0 : currSection + this.glitchMod; // to do: controls or global?
-
+        let numChanges = currSection === 0 ? 0 : currSection + glitchMod;
+        console.log("numChanges: " + numChanges);
         // make a copy of the lift plan slice to modify without affecting the original
         let modLiftPlan = this.copyRowDataArray(liftPlanSegment);
 
@@ -361,6 +361,19 @@ class Drawdown {
     }
 
     arraysEqual(arr1, arr2) {
-        return JSON.stringify(arr1) === JSON.stringify(arr2);
+        // Check if the arrays are the same length
+        if (arr1.length !== arr2.length) {
+            return false;
+        }
+    
+        // Check each element in the arrays
+        for (let i = 0; i < arr1.length; i++) {
+            if (arr1[i] !== arr2[i]) {
+                return false;
+            }
+        }
+    
+        // If no elements were different, the arrays are equal
+        return true;
     }
 }
