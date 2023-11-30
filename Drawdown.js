@@ -18,18 +18,6 @@ class Drawdown {
         this.threadingData = []; // array of rowDataTemplate objects
         this.tieupData = []; // array of rowDataTemplate objects
         this.liftPlanData = []; // array of rowDataTemplate objects
-
-        this.init();
-    }
-
-    init() {
-        // initial blank drawdown
-        for (let i = 0; i < this.wefts; i++) {
-            this.drawdown[i] = [];
-            for (let j = 0; j < this.warps; j++) {
-                this.drawdown[i][j] = false;
-            }
-        }
     }
 
     loadPattern(_patternName) {
@@ -51,7 +39,6 @@ class Drawdown {
         for (let i = 0; i < this.numShafts; i++) {
             positions[i] = [];
         }
-        console.log(positions);
         // populate positions with threading data
         for (let i = 0; i < this.warps; i++) {
             let currKey = this.threading[i];
@@ -75,7 +62,7 @@ class Drawdown {
     }
 
     createTieup() {
-        for (i = 0; i < this.numShafts; i++) {
+        for (let i = 0; i < this.numShafts; i++) {
             let shaft = [i + 1];
             this.tieupData[i] = { ...this.rowDataTemplate };
             this.tieupData[i].positions = shaft;
@@ -244,9 +231,9 @@ class Drawdown {
         background(100); // Dark grey
 
         // calc padding and dimensions
-        let padding = this.cellSize;
-        let liftPlanWidth = this.numShafts * this.cellSize;
-        let threadingHeight = this.numShafts * this.cellSize;
+        let padding = cellSize;
+        let liftPlanWidth = this.numShafts * cellSize;
+        let threadingHeight = this.numShafts * cellSize;
 
         // Print sections
         this.printSection("tieup", liftPlanWidth + padding, threadingHeight);
@@ -254,15 +241,13 @@ class Drawdown {
         this.printSection("liftplan", liftPlanWidth + padding, 2 * padding + threadingHeight);
         this.printSection("drawdown", 3 * padding + liftPlanWidth, 2 * padding + threadingHeight);
 
-        if (this.showLines) {
-            textFont(this.rowNum, 10);
-            textAlign(RIGHT);
-            let numX = this.cellSize + 7;
-            let numY = 7 * this.cellSize - 2;
-            for (let i = this.weftQuant; i > 0; i--) {
+        if (showLines) {
+            let numX = cellSize + 7;
+            let numY = 7 * cellSize - 2;
+            for (let i = this.wefts; i > 0; i--) {
                 fill(i % 5 === 0 ? [255, 204, 255] : 255);
                 text(i, numX, numY);
-                numY += this.cellSize;
+                numY += cellSize;
             }
         }
     }
@@ -288,7 +273,7 @@ class Drawdown {
 
         // Display section grids
         for (let row = 0; row < sectionData.length; row++) {
-            for (let col = 0; col < numCols; col++) {
+            for (let col = 0; col < this.warps; col++) {
                 let warpLifted = sectionData[row].positions.includes(col + 1);
                 let weftGlitched = sectionData[row].glitched;
 
@@ -303,31 +288,32 @@ class Drawdown {
                 }
 
                 // Determine the pixel position
-                let pixelX = 0, pixelY = 0;
+                let pixelX = 0
+                let pixelY = 0;
                 switch (section) {
                     case "tieup":
                         // bottom-right
-                        pixelX = leftBuffer - (col * this.cellSize);
-                        pixelY = topBuffer - (row * this.cellSize);
+                        pixelX = leftBuffer - (col * cellSize);
+                        pixelY = topBuffer - (row * cellSize);
                         break;
                     case "threading":
                         // bottom-left
-                        pixelX = leftBuffer + (col * this.cellSize);
-                        pixelY = topBuffer - (row * this.cellSize);
+                        pixelX = leftBuffer + (col * cellSize);
+                        pixelY = topBuffer - (row * cellSize);
                         break;
                     case "liftplan":
                         // top-right
-                        pixelX = leftBuffer - (col * this.cellSize);
-                        pixelY = topBuffer + (row * this.cellSize);
+                        pixelX = leftBuffer - (col * cellSize);
+                        pixelY = topBuffer + (row * cellSize);
                         break;
                     case "drawdown":
                         // top-left
-                        pixelX = leftBuffer + (col * this.cellSize);
-                        pixelY = topBuffer + (row * this.cellSize);
+                        pixelX = leftBuffer + (col * cellSize);
+                        pixelY = topBuffer + (row * cellSize);
                         break;
                 }
 
-                rect(pixelX, pixelY, this.cellSize, this.cellSize);
+                rect(pixelX, pixelY, cellSize, cellSize);
             }
         }
     }
@@ -372,6 +358,4 @@ class Drawdown {
     arraysEqual(arr1, arr2) {
         return JSON.stringify(arr1) === JSON.stringify(arr2);
     }
-
-
 }

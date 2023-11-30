@@ -14,6 +14,7 @@ let drawdown;
 let pan = 0;
 let pZoom = 10; // Perlin noise zoom level
 let glitchMod = 0;
+let showLines = false;
 
 // draft
 let wefts = Math.floor(drawdown_height / cellSize); // Rows
@@ -28,17 +29,30 @@ function preload() {
 
 function setup() {
     createCanvas(width, height);
+    textFont('Arial', 10);
+    textAlign(RIGHT);
+
     let seed = int(random(1, 100));
     noiseSeed(seed);
 
     drawdown = new Drawdown(wefts, warps);
     drawdown.loadPattern("twoByTwoTwill");
+    // create draft data
     drawdown.createThreading();
-    console.log(drawdown.threadingData);
+    drawdown.createTieup();
 }
 
 function draw() {
     background(255);
-    drawdown.display();
+
+    // create liftplan
+    drawdown.createLiftPlan();
+    // glitch liftplan
+    drawdown.glitchLiftPlan();
+    // generate drawdown from liftplan
+    drawdown.createDrawdown();
+    // display draft
+    drawdown.printDraft();
+
     noLoop()
 }
