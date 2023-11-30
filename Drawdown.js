@@ -72,6 +72,8 @@ class Drawdown {
     }
 
     createLiftPlan() {
+        this.liftPlanData = []
+
         for (let i = 0; i < this.wefts; i = i + this.shafts.length) {
             for (let j = 0; j < this.shafts.length; j++) {
                 if (this.liftPlanData.length < this.wefts) {
@@ -118,7 +120,6 @@ class Drawdown {
     gradientGlitch(liftPlanSegment, currSection, currRow) {
         // set number of changes based on current section and glitchMod
         let numChanges = currSection === 0 ? 0 : currSection + glitchMod;
-        console.log("numChanges: " + numChanges);
         // make a copy of the lift plan slice to modify without affecting the original
         let modLiftPlan = this.copyRowDataArray(liftPlanSegment);
 
