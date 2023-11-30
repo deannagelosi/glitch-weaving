@@ -1,7 +1,7 @@
 
 // canvas
 let width = 590;
-let height = 590;
+let height = 570;
 let drawdown_width = 500;
 let drawdown_height = 500;
 let cellSize = 10;
@@ -42,7 +42,7 @@ function setup() {
 function draw() {
     background(255);
 
-    // create liftplan
+    // create unglitched liftplan
     drawdown.createLiftPlan();
     // glitch liftplan
     drawdown.glitchLiftPlan();
@@ -52,4 +52,35 @@ function draw() {
     drawdown.printDraft();
 
     noLoop()
+}
+
+function keyPressed() {
+    if (key === 'g') {
+        glitchMod++;
+        console.log("glitchMod: ", glitchMod);
+        loop();
+    } else if (key === 'd') {
+        glitchMod--;
+        console.log("glitchMod: ", glitchMod);
+        loop();
+    } else if (key === 'r') {
+        showLines = !showLines;
+        loop();
+    } else if (keyCode === UP_ARROW) {
+        pZoom += cellSize;
+        console.log("pZoom: ", pZoom);
+        loop();
+    } else if (keyCode === DOWN_ARROW) {
+        pZoom -= cellSize;
+        console.log("pZoom: ", pZoom);
+        loop();
+    } else if (keyCode === LEFT_ARROW) {
+        pan -= cellSize;
+        console.log("pan: ", pan);
+        loop();
+    } else if (keyCode === RIGHT_ARROW) {
+        pan += cellSize;
+        console.log("pan: ", pan);
+        loop();
+    }
 }
